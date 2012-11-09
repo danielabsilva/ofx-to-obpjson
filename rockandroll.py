@@ -36,7 +36,7 @@ def to_obp_json(account_id, account_holder, ofx_file):
       details = {
            "type_en":transaction.type,
            "type_de":transaction.type,
-           "posted":{"$dt":str(transaction.date.astimezone(GMT())) },
+           "posted":{"$dt":str(transaction.date)},
            "completed":{"$dt":str(transaction.date)},
            "new_balance":{
                 "currency":ofx.account.statement.currency,
