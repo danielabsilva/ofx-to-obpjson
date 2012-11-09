@@ -68,10 +68,8 @@ def post_to_api():
     url = 'https://demo.openbankproject.com/api/tmp/transactions?secret=Ijqds901wla920xmlz'    
     #headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     req = urllib2.Request(url, data, {'Content-type': 'application/json'})
-    print url
     f = urllib2.urlopen(req)
     response = f.read()
-    print "response: " + response
     f.close()
     
 
