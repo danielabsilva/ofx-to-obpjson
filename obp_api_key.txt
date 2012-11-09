@@ -1,2 +1,0 @@
-Ijqds901wla#920xmlz
-on the Json the bankName must be "Banco do Brasil", the account number "4300-1-50180-8" and the kind:"current"
