@@ -1,8 +1,10 @@
 from ofxparse import OfxParser
 import json
+import urllib2
+
 
 #TODO: get rid of sample.ofx
-def to_obp_json(account_holder, ofx_file):
+def to_obp_json(account_id, account_holder, ofx_file):
     #Initiate the ofx object
     ofx = OfxParser.parse(file(ofx_file))
     transactions = []
@@ -13,18 +15,18 @@ def to_obp_json(account_holder, ofx_file):
 
       this_account = {
                 "holder":account_holder,
-                "number":ofx.account.number,
-                "kind":ofx.account.account_type,
+                "number":account_id,
+                "kind":'current', #ofx.account.account_type,
                 "bank":{
                     "IBAN":"unknown",
                     "national_identifier":"unknown",
-                    "name":"ofx.account.institution.organization"}
+                    "name":"Banco do Brasil"} #ofx.account.institution.organization
                 }
      
       other_account = {
                 "holder":transaction.payee,
                 "number":"unknown",
-                "kind":"unknown",
+                "kind":"current",
                 "bank":{
                     "IBAN":"unknown",
                     "national_identifier":"unknown",
@@ -55,12 +57,26 @@ def to_obp_json(account_holder, ofx_file):
     obpjson = json.dumps(transactions)
     
     #Return the newly created json
-    print '------------------------'
-    print 'JSON = ' + obpjson
     return obpjson
 
 
+def post_to_api():
+    #Ijqds901wla#920xmlz
+    data = to_obp_json("4300-1-50180-8", 'Hacker Transparencia', 'sample.ofx')
+    f1=open('./json.txt', 'w+')
+    print >> f1, data
+    url = 'https://demo.openbankproject.com:8080/api/tmp/transactions?secret=Ijqds901wla#920xmlz'    
+    #headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    req = urllib2.Request(url, data, {'Content-type': 'application/json'})
+    print url
+    f = urllib2.urlopen(req)
+    response = f.read()
+    print "response: " + str(response)
+    f.close()
+    
 
 if __name__ == "__main__":
-    to_obp_json('Hacker Transparencia', 'sample.ofx')
+    #to_obp_json('Hacker Transparencia', 'sample.ofx')
+    post_to_api()
+    
 
