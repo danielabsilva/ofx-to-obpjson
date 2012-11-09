@@ -2,7 +2,7 @@ from ofxparse import OfxParser
 import json
 
 #TODO: get rid of sample.ofx
-def to_obpjson(ofxfile='sample.ofx'):
+def to_obpjson(ofxfile):
     #Initiate the ofx object
     ofx = OfxParser.parse(file(ofxfile))
     obptransaction = {}
@@ -21,5 +21,5 @@ def to_obpjson(ofxfile='sample.ofx'):
     return obpjson
 
 if __name__ == "__main__":
-    to_obpjson()
+    to_obpjson('sample.ofx')
 
