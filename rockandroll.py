@@ -65,7 +65,7 @@ def post_to_api():
     data = to_obp_json("4300-1-50180-8", 'Hacker Transparencia', 'sample.ofx')
     f1=open('./json.txt', 'w+')
     print >> f1, data
-    url = 'https://demo.openbankproject.com:8080/api/tmp/transactions?secret=Ijqds901wla#920xmlz'    
+    url = 'https://demo.openbankproject.com/api/tmp/transactions?secret=Ijqds901wla#920xmlz?'    
     #headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     req = urllib2.Request(url, data, {'Content-type': 'application/json'})
     print url
