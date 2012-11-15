@@ -3,6 +3,8 @@ import json
 import urllib2
 import sys
 import os
+import datetime
+
 
 
 #TODO: get rid of sample.ofx
@@ -41,8 +43,8 @@ def to_obp_json(account_holder, ofx_file):
       details = {
            "type_en":transaction.type,
            "type_de":transaction.type,
-           "posted":{"$dt":str(transaction.date)},
-           "completed":{"$dt":str(transaction.date)},
+           "posted":{"$dt":convert_date(transaction.date)},
+           "completed":{"$dt":convert_date(transaction.date)},
            "new_balance":{
                 "currency":ofx.account.statement.currency,
                 "amount":str(ofx.account.statement.balance)
@@ -63,6 +65,9 @@ def to_obp_json(account_holder, ofx_file):
     #Return the newly created json
     return obpjson
 
+def convert_date(to_convert):
+  return datetime.datetime.strftime(to_convert, "%Y-%m-%dT%H:%M:%S.001Z")
+
 
 if __name__ == "__main__":
     #Ijqds901wla920xmlz
@@ -76,4 +81,5 @@ if __name__ == "__main__":
     f = urllib2.urlopen(req)
     response = f.read()
     print response
+
     f.close()
