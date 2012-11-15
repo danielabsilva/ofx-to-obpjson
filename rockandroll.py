@@ -81,10 +81,9 @@ if __name__ == "__main__":
           try:
             data = to_obp_json(account_holder, os.path.join(folder, ofx))
             req = urllib2.Request(url, data, {'Content-type': 'application/json'})
-            #f = urllib2.urlopen(req)
-            #response = f.read()
-            #f.close()
-            print data
+            f = urllib2.urlopen(req)
+            response = f.read()
+            f.close()
             msg = "transactions successfully added"
           except:
             msg = "error: something went wrong"            
