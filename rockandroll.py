@@ -2,6 +2,7 @@ from ofxparse import OfxParser
 import json
 import urllib2
 import sys
+import os
 
 
 #TODO: get rid of sample.ofx
@@ -69,9 +70,10 @@ if __name__ == "__main__":
     ofx_file = sys.argv[2]
     secret = sys.argv[3]
 
-    data = to_obp_json(account_holder,ofx_file)
+    data = to_obp_json(account_holder, ofx_file)
     url = 'https://demo.openbankproject.com/api/tmp/transactions?secret={0}'.format(secret)
     req = urllib2.Request(url, data, {'Content-type': 'application/json'})
     f = urllib2.urlopen(req)
     response = f.read()
+    print response
     f.close()
