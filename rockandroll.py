@@ -9,6 +9,9 @@ import datetime
 
 #TODO: get rid of sample.ofx
 def to_obp_json(account_holder, ofx_file):
+    # if not an ofx file then exist 
+    if not ofx_file.endswith('.ofx'):
+      return 
     #Initiate the ofx object
     ofx = OfxParser.parse(file(ofx_file))
     transactions = []
@@ -70,22 +73,25 @@ def convert_date(to_convert):
 
 
 if __name__ == "__main__":
-    #Ijqds901wla920xmlz
     account_holder = sys.argv[1]
     folder = sys.argv[2]
     secret = sys.argv[3]
     url = 'https://demo.openbankproject.com/api/tmp/transactions?secret={0}'.format(secret)
-    msg =  "error: can't find the appropriate folder"
-    if os.path.isdir(folder):
+    if not os.path.isdir(folder):
+      print "error: can't find the appropriate folder"
+    else:
+       try:
         for ofx in os.listdir(folder):
-          try:
+            print os.path.join(folder, ofx)
             data = to_obp_json(account_holder, os.path.join(folder, ofx))
-            req = urllib2.Request(url, data, {'Content-type': 'application/json'})
-            f = urllib2.urlopen(req)
-            response = f.read()
-            f.close()
-            msg = "transactions successfully added"
-          except:
-            msg = "error: something went wrong"            
-    print msg
+            if (data):
+              req = urllib2.Request(url, data, {'Content-type': 'application/json'})
+              f = urllib2.urlopen(req)
+              response = f.read()
+              f.close()
+              print "transactions successfully added"
+            else:
+              print "error : couldn't read the data, the ofx file may be corrupted"
+       except:
+          print "error: the web request failed"
 
