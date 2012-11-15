@@ -32,7 +32,7 @@ def to_obp_json(account_holder, ofx_file):
                     "name": bank}
                 }
       other_account = {
-                "holder":transaction.payee,
+                "holder": transaction.payee or transaction.id,
                 "number":"unknown",
                 "kind": "unknown",
                 "bank":{
@@ -81,9 +81,10 @@ if __name__ == "__main__":
           try:
             data = to_obp_json(account_holder, os.path.join(folder, ofx))
             req = urllib2.Request(url, data, {'Content-type': 'application/json'})
-            f = urllib2.urlopen(req)
-            response = f.read()
-            f.close()
+            #f = urllib2.urlopen(req)
+            #response = f.read()
+            #f.close()
+            print data
             msg = "transactions successfully added"
           except:
             msg = "error: something went wrong"            
